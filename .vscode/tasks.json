@@ -3,36 +3,12 @@
         {
             "type": "shell",
             "label": "C/C++: gcc build active file",
-            "command": "/usr/bin/gcc",
+            "command": "g++ ${fileBasename} `wx-config --cxxflags --libs` -o ${fileBasenameNoExtension}",
             "args": [
-                "-fdiagnostics-color=always",
-                "-g",
-                "${workspaceFolder}/*.cpp",
-                "-o",
-                "${fileDirname}/${fileBasenameNoExtension}",
-
-                "-I/usr/lib/x86_64-linux-gnu/wx/include/gtk3-unicode-3.2",
-                "-I/usr/include/wx-3.2",
-                "-D_FILE_OFFSET_BITS=64",
-                "-DWXUSINGDLL",
-                "-D__WXGTK__ -pthread",
-                "-L/usr/lib/x86_64-linux-gnu",
-                "-pthread",
-                "-lwx_gtk3u_xrc-3.2",
-                "-lwx_gtk3u_html-3.2",
-                "-lwx_gtk3u_qa-3.2",
-                "-lwx_gtk3u_core-3.2",
-                "-lwx_baseu_xml-3.2",
-                "-lwx_baseu_net-3.2",
-                "-lwx_baseu-3.2",
-                "-lstdc++"
             ],
             "options": {
                 "cwd": "${fileDirname}"
             },
-            "problemMatcher": [
-                "$gcc"
-            ],
             "group": {
                 "kind": "build",
                 "isDefault": true
