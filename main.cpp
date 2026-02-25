@@ -17,14 +17,14 @@ public:
     virtual bool OnInit();
 };
 
-// Declare the Frame Class, constructor and event handlers
+// Declare the Frame Class, constructor and event handler methods
 class MyFrame : public wxFrame
 {
 public:
     MyFrame();
  
 private:
-    void OnHello(wxCommandEvent& event);
+    void OnReset(wxCommandEvent& event);
     void OnExit(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
     void Button1(wxCommandEvent& event);
@@ -38,19 +38,9 @@ private:
     void Button9(wxCommandEvent& event);  
 };
 
-// Declare IDs for the events
-enum
-{
-   ID_Button1 = 1,
-   ID_Button2 = 2,
-   ID_Button3 = 3,
-   ID_Button4 = 4,
-   ID_Button5 = 5,
-   ID_Button6 = 6,
-   ID_Button7 = 7,
-   ID_Button8 = 8,
-   ID_Button9 = 9,
-   ID_Reset = 10
+//Create an id for the Reset menu option
+enum {
+    ID_Reset = 1
 };
 
 // Initialise the App and call MyFrame 
@@ -60,8 +50,6 @@ bool MyApp::OnInit()
 {
     MyFrame *frame = new MyFrame();
     frame->Show(true);
-
-    Game *game = new Game;
 
     return true;
 }
@@ -85,43 +73,56 @@ MyFrame::MyFrame()
     wxMenuBar *menuBar = new wxMenuBar;
     menuBar->Append(menuFile, "&File");
     menuBar->Append(menuHelp, "&Help");
- 
+        
+    //Add menubar to frame
     SetMenuBar( menuBar );
  
-    //Status bar
+    //Create Status bar and set inital text
     CreateStatusBar();
-    SetStatusText("Welcome to Noughts and Crosses.");
+    int currPlayer = 1;
+    SetStatusText("Player 1's turn.");
 
     //Bind event handlers for menu 
-    Bind(wxEVT_MENU, &MyFrame::OnHello, this, ID_Reset);
+    Bind(wxEVT_MENU, &MyFrame::OnReset, this, ID_Reset);
     Bind(wxEVT_MENU, &MyFrame::OnAbout, this, wxID_ABOUT);
     Bind(wxEVT_MENU, &MyFrame::OnExit, this, wxID_EXIT);
 
-    //Add Button Grid
+    //Create GridSizer and buttons
     wxGridSizer *grid = new wxGridSizer(3,1,1);
-    grid->Add(new wxButton(this,ID_Button1,""),wxSizerFlags().Align(wxALIGN_CENTER));
-    grid->Add(new wxButton(this,ID_Button2,""),wxSizerFlags().Align(wxALIGN_CENTER));
-    grid->Add(new wxButton(this,ID_Button3,""),wxSizerFlags().Align(wxALIGN_CENTER));
-    grid->Add(new wxButton(this,ID_Button4,""),wxSizerFlags().Align(wxALIGN_CENTER));
-    grid->Add(new wxButton(this,ID_Button5,""),wxSizerFlags().Align(wxALIGN_CENTER));
-    grid->Add(new wxButton(this,ID_Button6,""),wxSizerFlags().Align(wxALIGN_CENTER));
-    grid->Add(new wxButton(this,ID_Button7,""),wxSizerFlags().Align(wxALIGN_CENTER));
-    grid->Add(new wxButton(this,ID_Button8,""),wxSizerFlags().Align(wxALIGN_CENTER));
-    grid->Add(new wxButton(this,ID_Button9,""),wxSizerFlags().Align(wxALIGN_CENTER));
-        
+    wxButton *button1 = new wxButton(this, wxID_ANY,"");
+    wxButton *button2= new wxButton(this, wxID_ANY,"");
+    wxButton *button3= new wxButton(this, wxID_ANY,"");
+    wxButton *button4= new wxButton(this, wxID_ANY,"");
+    wxButton *button5= new wxButton(this, wxID_ANY,"");
+    wxButton *button6= new wxButton(this, wxID_ANY,"");
+    wxButton *button7= new wxButton(this, wxID_ANY,"");
+    wxButton *button8= new wxButton(this, wxID_ANY,"");
+    wxButton *button9= new wxButton(this, wxID_ANY,"");
+
+    //Add buttons to grid    
+    grid->Add(button1, wxSizerFlags().Align(wxALIGN_CENTER));
+    grid->Add(button2, wxSizerFlags().Align(wxALIGN_CENTER));
+    grid->Add(button3, wxSizerFlags().Align(wxALIGN_CENTER));
+    grid->Add(button4, wxSizerFlags().Align(wxALIGN_CENTER));
+    grid->Add(button5, wxSizerFlags().Align(wxALIGN_CENTER));
+    grid->Add(button6, wxSizerFlags().Align(wxALIGN_CENTER));
+    grid->Add(button7, wxSizerFlags().Align(wxALIGN_CENTER));
+    grid->Add(button8, wxSizerFlags().Align(wxALIGN_CENTER));
+    grid->Add(button9, wxSizerFlags().Align(wxALIGN_CENTER));
+    
+    //Add grid to frame
     this->SetSizer(grid);
 
     //Bind event handlers for buttons
-    Bind(wxEVT_BUTTON, &MyFrame::Button1, this, ID_Button1);
-    Bind(wxEVT_BUTTON, &MyFrame::Button2, this, ID_Button2);
-    Bind(wxEVT_BUTTON, &MyFrame::Button3, this, ID_Button3);
-    Bind(wxEVT_BUTTON, &MyFrame::Button4, this, ID_Button4);
-    Bind(wxEVT_BUTTON, &MyFrame::Button5, this, ID_Button5);
-    Bind(wxEVT_BUTTON, &MyFrame::Button6, this, ID_Button6);
-    Bind(wxEVT_BUTTON, &MyFrame::Button7, this, ID_Button7);
-    Bind(wxEVT_BUTTON, &MyFrame::Button8, this, ID_Button8);
-    Bind(wxEVT_BUTTON, &MyFrame::Button9, this, ID_Button9);
-    
+    button1->Bind(wxEVT_BUTTON, &MyFrame::Button1, this);
+    button2->Bind(wxEVT_BUTTON, &MyFrame::Button2, this);
+    button3->Bind(wxEVT_BUTTON, &MyFrame::Button3, this);
+    button4->Bind(wxEVT_BUTTON, &MyFrame::Button4, this);
+    button5->Bind(wxEVT_BUTTON, &MyFrame::Button5, this);
+    button6->Bind(wxEVT_BUTTON, &MyFrame::Button6, this);
+    button7->Bind(wxEVT_BUTTON, &MyFrame::Button7, this);
+    button8->Bind(wxEVT_BUTTON, &MyFrame::Button8, this);
+    button9->Bind(wxEVT_BUTTON, &MyFrame::Button9, this);    
 }
 
 // Define Event handlers 
@@ -136,7 +137,7 @@ void MyFrame::OnAbout(wxCommandEvent& event)
                  "About Noughts and Crosses", wxOK | wxICON_INFORMATION);
 }
  
-void MyFrame::OnHello(wxCommandEvent& event)
+void MyFrame::OnReset(wxCommandEvent& event)
 {
     wxLogMessage("TODO: Reset the Game!");
 }
