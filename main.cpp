@@ -147,7 +147,9 @@ void MyFrame::OnAbout(wxCommandEvent& event)
  
 void MyFrame::OnReset(wxCommandEvent& event)
 {
-    wxLogMessage("TODO: Reset the Game!");
+    wxGetApp().game->initBoard();
+    //TODO
+    wxMessageBox(wxString::Format("%d",event.GetId()));
 }
 
 void MyFrame::PlaySquare(wxButton* button, int x, int y)
@@ -160,9 +162,16 @@ void MyFrame::PlaySquare(wxButton* button, int x, int y)
         if(currPlayer == 1){buttonLabel = 'O';} else {buttonLabel = 'X';};
         button->SetLabel(buttonLabel);
 
-        int nextPlayer = wxGetApp().game->switchPlayer();
-        SetStatusText(wxString::Format(wxT("Player %d's turn."),nextPlayer));
+        if(wxGetApp().game->checkWin() == true){
+            wxMessageBox(wxString::Format(wxT("Player %d Wins!"),currPlayer));
+            SetStatusText("Reset to play again.");
+        } else {   
+            int nextPlayer = wxGetApp().game->switchPlayer();
+            SetStatusText(wxString::Format(wxT("Player %d's turn."),nextPlayer));
+        }
     };
+
+    
 }
 
 void MyFrame::Button1(wxCommandEvent& event)
