@@ -15,6 +15,7 @@ class MyApp : public wxApp
 {
 public:
     virtual bool OnInit();
+    Game *game = new Game();
 };
 
 // Declare the Frame Class, constructor and event handler methods
@@ -35,7 +36,8 @@ private:
     void Button6(wxCommandEvent& event);
     void Button7(wxCommandEvent& event);
     void Button8(wxCommandEvent& event);
-    void Button9(wxCommandEvent& event);  
+    void Button9(wxCommandEvent& event);
+    void PlaySquare(wxButton*, int, int);
 };
 
 //Create an id for the Reset menu option
@@ -51,13 +53,19 @@ bool MyApp::OnInit()
     MyFrame *frame = new MyFrame();
     frame->Show(true);
 
+    game->initBoard();
+
     return true;
 }
 
 // Define the contents of the MyFrame in its constructor
 MyFrame::MyFrame()
     : wxFrame(NULL, wxID_ANY, "Noughts and Crosses",wxDefaultPosition,wxSize(450,400))
-{
+{   
+    //Init the Game object
+    Game *game = new Game();
+    game->initBoard();
+
     //File menu
     wxMenu *menuFile = new wxMenu;
     menuFile->Append(ID_Reset, "&Reset\tCtrl-R",
@@ -79,8 +87,8 @@ MyFrame::MyFrame()
  
     //Create Status bar and set inital text
     CreateStatusBar();
-    int currPlayer = 1;
-    SetStatusText("Player 1's turn.");
+    int currPlayer = wxGetApp().game->getPlayer();
+    SetStatusText(wxString::Format(wxT("Player %d's turn."),currPlayer));
 
     //Bind event handlers for menu 
     Bind(wxEVT_MENU, &MyFrame::OnReset, this, ID_Reset);
@@ -142,47 +150,71 @@ void MyFrame::OnReset(wxCommandEvent& event)
     wxLogMessage("TODO: Reset the Game!");
 }
 
-void MyFrame::Button1(wxCommandEvent& event)
+void MyFrame::PlaySquare(wxButton* button, int x, int y)
 {
-    SetStatusText("Button1");
+    if(wxGetApp().game->getPosition(x,y) == 0){
+        wxGetApp().game->setPosition(x,y,wxGetApp().game->getPlayer());
+        
+        int currPlayer = wxGetApp().game->getPlayer();
+        char buttonLabel;
+        if(currPlayer == 1){buttonLabel = 'O';} else {buttonLabel = 'X';};
+        button->SetLabel(buttonLabel);
+
+        int nextPlayer = wxGetApp().game->switchPlayer();
+        SetStatusText(wxString::Format(wxT("Player %d's turn."),nextPlayer));
+    };
+}
+
+void MyFrame::Button1(wxCommandEvent& event)
+{   
+    wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
+    MyFrame::PlaySquare(button, 0, 0);
 }
 
 void MyFrame::Button2(wxCommandEvent& event)
 {
-    SetStatusText("Button2");
+    wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
+    MyFrame::PlaySquare(button, 1, 0);
 }
 
 void MyFrame::Button3(wxCommandEvent& event)
 {
-    SetStatusText("Button3");
+    wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
+    MyFrame::PlaySquare(button, 2, 0);
 }
 
 void MyFrame::Button4(wxCommandEvent& event)
 {
-    SetStatusText("Button4");
+    wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
+    MyFrame::PlaySquare(button, 0, 1);
 }
 
 void MyFrame::Button5(wxCommandEvent& event)
 {
-    SetStatusText("Button5");
+    wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
+    MyFrame::PlaySquare(button, 1, 1);
 }
 
 void MyFrame::Button6(wxCommandEvent& event)
 {
-    SetStatusText("Button6");
+    wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
+    MyFrame::PlaySquare(button, 2, 1);
 }
 
 void MyFrame::Button7(wxCommandEvent& event)
 {
-    SetStatusText("Button7");
+    wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
+    MyFrame::PlaySquare(button, 0, 2);
 }
 
 void MyFrame::Button8(wxCommandEvent& event)
 {
-    SetStatusText("Button8");
+    wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
+    MyFrame::PlaySquare(button, 1, 2);
 }
 
 void MyFrame::Button9(wxCommandEvent& event)
 {
-    SetStatusText("Button9");
+    wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
+    MyFrame::PlaySquare(button, 2, 2);
 }
