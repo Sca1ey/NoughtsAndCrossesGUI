@@ -3,6 +3,8 @@
 #include <limits>
 #include "Game.h"
 
+Game::Game(){};
+
 void Game::InitBoard(){
     for (int y = 0; y < 3; y++){
         for (int x = 0; x < 3; x++){
@@ -10,8 +12,6 @@ void Game::InitBoard(){
         }
     }
 }
-
-Game::Game(){};
 
 int Game::GetPosition(int x, int y)
 {
@@ -47,3 +47,17 @@ int Game::SwitchPlayer()
     if(player == 1){player = 2;} else {player = 1;}
     return player;
 };
+
+/*
+int main (){
+    Game* game = new Game();
+    game->InitBoard();
+    game->SetPosition(0,0,1);
+    game->SetPosition(0,1,1);
+    game->SetPosition(0,2,1);
+    game->SwitchPlayer();
+    std::cout << game->GetPlayer() << std::endl;
+    std::cout << game->GetPosition(0,0) << std::endl;
+    std::cout << game->CheckWin() << std::endl;
+}
+*/

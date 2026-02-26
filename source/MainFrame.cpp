@@ -36,7 +36,8 @@ void MainFrame::CreateMenus()
     
     //Create Status bar and set inital text
     CreateStatusBar();
-    int currPlayer = 1;
+    //int currPlayer = 1; //game->GetPlayer();
+    int currPlayer = game->GetPosition(0,0);
     SetStatusText(wxString::Format(wxT("Player %d's turn."),currPlayer));
 }
 

@@ -1,4 +1,5 @@
 #pragma once
+#include "Game.h"
 #include <wx/wx.h>
 
 class MainFrame : public wxFrame
@@ -36,5 +37,7 @@ class MainFrame : public wxFrame
         wxButton* button7;
         wxButton* button8;
         wxButton* button9;
+
+        Game* game;
 
 };
