@@ -41,7 +41,7 @@ void MainFrame::CreateMenus()
     
     //Create Status bar and set inital text
     CreateStatusBar();
-    int currPlayer = 1; //game->GetPlayer();
+    int currPlayer = game->GetPlayer();
     SetStatusText(wxString::Format(wxT("Player %d's turn."),currPlayer));
 }
 
@@ -134,6 +134,8 @@ void MainFrame::OnReset(wxCommandEvent& event)
     button8->SetLabel("");
     button9->SetLabel("");
     BindButtonEventHandlers();
+    int currPlayer = game->GetPlayer();
+    SetStatusText(wxString::Format(wxT("Player %d's turn."),currPlayer));
 }
 
 void MainFrame::PlayPosition(wxButton* button, int x, int y)
@@ -147,7 +149,7 @@ void MainFrame::PlayPosition(wxButton* button, int x, int y)
         button->SetLabel(buttonLabel);
         
         if(game->CheckWin() == true){
-            wxMessageBox(wxString::Format(wxT("Player %d Wins!"),currPlayer));
+            wxMessageBox(wxString::Format(wxT("Player %d Wins!\nReset to Play again!"),currPlayer));
             SetStatusText("Reset to play again.");
             UnbindButtonEventHandlers();
         } else {   
