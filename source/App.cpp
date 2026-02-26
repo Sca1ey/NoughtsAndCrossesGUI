@@ -1,6 +1,5 @@
 #include "App.h"
 #include "MainFrame.h"
-//#include "Game.h"
 
 // Initialise the App and call MyFrame 
 wxIMPLEMENT_APP(App);
@@ -12,7 +11,5 @@ bool App::OnInit()
     mainFrame->Center();
     mainFrame->Show();
     
-    //Game *game = new Game();
-
     return true;
 }

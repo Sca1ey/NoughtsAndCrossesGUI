@@ -1,24 +1,27 @@
 #include "MainFrame.h"
+#include "App.h"
 #include <wx/wx.h>
+
+enum {
+    ID_Reset = 1
+};
 
 // Define the contents of the Frame in its constructor
 MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title)
-{     
-    //Frame::CreateMenus();
-    //Frame::CreateControls();
-    //Frame::BindEventHandlers();
+{       
+    MainFrame::CreateMenus();
+    MainFrame::CreateControls();
+    MainFrame::BindEventHandlers();
 }
 
-/*
-void Frame::CreateMenus()
+void MainFrame::CreateMenus()
 {
     //File menu
     wxMenu *menuFile = new wxMenu;
-    menuFile->Append(ID_Reset, "&Reset\tCtrl-R",
-    "Reset the game!");
+    menuFile->Append(ID_Reset, "&Reset\tCtrl-R","Reset the game!");
     menuFile->AppendSeparator();
     menuFile->Append(wxID_EXIT);
-    
+        
     //Help Menu
     wxMenu *menuHelp = new wxMenu;
     menuHelp->Append(wxID_ABOUT);
@@ -33,26 +36,26 @@ void Frame::CreateMenus()
     
     //Create Status bar and set inital text
     CreateStatusBar();
-    int currPlayer = wxGetApp().game->getPlayer();
+    int currPlayer = 1;
     SetStatusText(wxString::Format(wxT("Player %d's turn."),currPlayer));
 }
 
-void Frame::CreateControls()
+void MainFrame::CreateControls()
 {
-    //Create GridSizer
-    grid = new wxGridSizer(3,1,1);
+    //Create GridSizer with 3 columns
+    grid = new wxGridSizer(3);
     this->SetSizer(grid);
     
     //create buttons
-    button1 = new wxButton(grid, wxID_ANY,"");
-    button2 = new wxButton(grid, wxID_ANY,"");
-    button3 = new wxButton(grid, wxID_ANY,"");
-    button4 = new wxButton(grid, wxID_ANY,"");
-    button5 = new wxButton(grid, wxID_ANY,"");
-    button6 = new wxButton(grid, wxID_ANY,"");
-    button7 = new wxButton(grid, wxID_ANY,"");
-    button8 = new wxButton(grid, wxID_ANY,"");
-    button9 = new wxButton(grid, wxID_ANY,"");
+    button1 = new wxButton(this, wxID_ANY,"");
+    button2 = new wxButton(this, wxID_ANY,"");
+    button3 = new wxButton(this, wxID_ANY,"");
+    button4 = new wxButton(this, wxID_ANY,"");
+    button5 = new wxButton(this, wxID_ANY,"");
+    button6 = new wxButton(this, wxID_ANY,"");
+    button7 = new wxButton(this, wxID_ANY,"");
+    button8 = new wxButton(this, wxID_ANY,"");
+    button9 = new wxButton(this, wxID_ANY,"");
     
     //Add buttons to grid    
     grid->Add(button1, wxSizerFlags().Align(wxALIGN_CENTER));
@@ -64,43 +67,45 @@ void Frame::CreateControls()
     grid->Add(button7, wxSizerFlags().Align(wxALIGN_CENTER));
     grid->Add(button8, wxSizerFlags().Align(wxALIGN_CENTER));
     grid->Add(button9, wxSizerFlags().Align(wxALIGN_CENTER));
+
 }
 
-void Frame::BindEventHandlers()
+void MainFrame::BindEventHandlers()
 {
     //Bind event handlers for menu 
-    Bind(wxEVT_MENU, &Frame::OnReset, this, wxID_ANY);
-    Bind(wxEVT_MENU, &Frame::OnAbout, this, wxID_ABOUT);
-    Bind(wxEVT_MENU, &Frame::OnExit, this, wxID_EXIT);
+    Bind(wxEVT_MENU, &MainFrame::OnReset, this, ID_Reset);
+    Bind(wxEVT_MENU, &MainFrame::OnAbout, this, wxID_ABOUT);
+    Bind(wxEVT_MENU, &MainFrame::OnExit, this, wxID_EXIT);
     
     //Bind event handlers for buttons
-    button1->Bind(wxEVT_BUTTON, &Frame::Button1, this);
-    button2->Bind(wxEVT_BUTTON, &Frame::Button2, this);
-    button3->Bind(wxEVT_BUTTON, &Frame::Button3, this);
-    button4->Bind(wxEVT_BUTTON, &Frame::Button4, this);
-    button5->Bind(wxEVT_BUTTON, &Frame::Button5, this);
-    button6->Bind(wxEVT_BUTTON, &Frame::Button6, this);
-    button7->Bind(wxEVT_BUTTON, &Frame::Button7, this);
-    button8->Bind(wxEVT_BUTTON, &Frame::Button8, this);
-    button9->Bind(wxEVT_BUTTON, &Frame::Button9, this);
+    button1->Bind(wxEVT_BUTTON, &MainFrame::Button1, this);
+    button2->Bind(wxEVT_BUTTON, &MainFrame::Button2, this);
+    button3->Bind(wxEVT_BUTTON, &MainFrame::Button3, this);
+    button4->Bind(wxEVT_BUTTON, &MainFrame::Button4, this);
+    button5->Bind(wxEVT_BUTTON, &MainFrame::Button5, this);
+    button6->Bind(wxEVT_BUTTON, &MainFrame::Button6, this);
+    button7->Bind(wxEVT_BUTTON, &MainFrame::Button7, this);
+    button8->Bind(wxEVT_BUTTON, &MainFrame::Button8, this);
+    button9->Bind(wxEVT_BUTTON, &MainFrame::Button9, this);
 }
-
-void Frame::OnExit(wxCommandEvent& event)
+    
+void MainFrame::OnExit(wxCommandEvent& event)
 {
     Close(true);
 }
-
-void Frame::OnAbout(wxCommandEvent& event)
+    
+void MainFrame::OnAbout(wxCommandEvent& event)
 {
     wxMessageBox("This is a wxWidgets version of Noughts and Crosses",
-    "About Noughts and Crosses", wxOK | wxICON_INFORMATION);
+        "About Noughts and Crosses", wxOK | wxICON_INFORMATION);
 }
-
-void Frame::OnReset(wxCommandEvent& event)
+        
+void MainFrame::OnReset(wxCommandEvent& event)
 {
-    wxGetApp().game->initBoard();
+    //wxGetApp().game->initBoard();
     button1->SetLabel("");
 }
+    /*
 
 void Frame::PlaySquare(wxButton* button, int x, int y)
 {
@@ -119,62 +124,61 @@ void Frame::PlaySquare(wxButton* button, int x, int y)
             int nextPlayer = wxGetApp().game->switchPlayer();
         SetStatusText(wxString::Format(wxT("Player %d's turn."),nextPlayer));
     }
-};
+};}
 
-
-}
-
-void Frame::Button1(wxCommandEvent& event)
-{   
-    wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
-    Frame::PlaySquare(button, 0, 0);
-}
-
-void Frame::Button2(wxCommandEvent& event)
-{
-    wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
-    Frame::PlaySquare(button, 1, 0);
-}
-
-void Frame::Button3(wxCommandEvent& event)
-{
-    wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
-    Frame::PlaySquare(button, 2, 0);
-}
-
-void Frame::Button4(wxCommandEvent& event)
-{
-    wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
-    Frame::PlaySquare(button, 0, 1);
-}
-
-void Frame::Button5(wxCommandEvent& event)
-{
-    wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
-    Frame::PlaySquare(button, 1, 1);
-}
-
-void Frame::Button6(wxCommandEvent& event)
-{
-    wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
-    Frame::PlaySquare(button, 2, 1);
-}
-
-void Frame::Button7(wxCommandEvent& event)
-{
-    wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
-    Frame::PlaySquare(button, 0, 2);
-}
-
-void Frame::Button8(wxCommandEvent& event)
-{
-    wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
-    Frame::PlaySquare(button, 1, 2);
-}
-
-void Frame::Button9(wxCommandEvent& event)
-{
-    wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
-    Frame::PlaySquare(button, 2, 2);
-}
 */
+
+
+void MainFrame::Button1(wxCommandEvent& event)
+{   
+    //wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
+    //Frame::PlaySquare(button, 0, 0);
+}
+
+void MainFrame::Button2(wxCommandEvent& event)
+{
+    //wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
+    //Frame::PlaySquare(button, 1, 0);
+}
+
+void MainFrame::Button3(wxCommandEvent& event)
+{
+    //wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
+    //Frame::PlaySquare(button, 2, 0);
+}
+
+void MainFrame::Button4(wxCommandEvent& event)
+{
+    //wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
+    //Frame::PlaySquare(button, 0, 1);
+}
+
+void MainFrame::Button5(wxCommandEvent& event)
+{
+    //wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
+    //Frame::PlaySquare(button, 1, 1);
+}
+
+void MainFrame::Button6(wxCommandEvent& event)
+{
+    //wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
+    //Frame::PlaySquare(button, 2, 1);
+}
+
+void MainFrame::Button7(wxCommandEvent& event)
+{
+    //wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
+    //Frame::PlaySquare(button, 0, 2);
+}
+
+void MainFrame::Button8(wxCommandEvent& event)
+{
+    //wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
+    //Frame::PlaySquare(button, 1, 2);
+}
+
+void MainFrame::Button9(wxCommandEvent& event)
+{
+    //wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
+    //Frame::PlaySquare(button, 2, 2);
+}
