@@ -37,7 +37,4 @@ class MainFrame : public wxFrame
         wxButton* button7;
         wxButton* button8;
         wxButton* button9;
-
-        Game* game;
-
 };

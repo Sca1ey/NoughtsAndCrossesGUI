@@ -1,6 +1,9 @@
 #include "MainFrame.h"
 #include "App.h"
 #include <wx/wx.h>
+#include "Game.h"
+
+Game* game = new Game();
 
 enum {
     ID_Reset = 1
@@ -36,8 +39,7 @@ void MainFrame::CreateMenus()
     
     //Create Status bar and set inital text
     CreateStatusBar();
-    //int currPlayer = 1; //game->GetPlayer();
-    int currPlayer = game->GetPosition(0,0);
+    int currPlayer = 1; //game->GetPlayer();
     SetStatusText(wxString::Format(wxT("Player %d's turn."),currPlayer));
 }
 
