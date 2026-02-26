@@ -3,7 +3,7 @@
         {
             "type": "shell",
             "label": "C/C++: gcc build active file",
-            "command": "g++ ${workspaceFolder}/source/*.cpp `wx-config --cxxflags --libs` -o ${workspaceFolder}/build/main",
+            "command": "g++ -g ${workspaceFolder}/source/*.cpp `wx-config --cxxflags --libs` -o ${workspaceFolder}/build/main",
             "args": [
             ],
             "options": {
