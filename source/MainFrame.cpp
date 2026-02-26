@@ -14,7 +14,9 @@ MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title)
 {       
     MainFrame::CreateMenus();
     MainFrame::CreateControls();
-    MainFrame::BindEventHandlers();
+    MainFrame::BindMenuEventHandlers();
+    MainFrame::BindButtonEventHandlers();
+    game->InitBoard();
 }
 
 void MainFrame::CreateMenus()
@@ -73,14 +75,16 @@ void MainFrame::CreateControls()
 
 }
 
-void MainFrame::BindEventHandlers()
+void MainFrame::BindMenuEventHandlers()
 {
     //Bind event handlers for menu 
     Bind(wxEVT_MENU, &MainFrame::OnReset, this, ID_Reset);
     Bind(wxEVT_MENU, &MainFrame::OnAbout, this, wxID_ABOUT);
     Bind(wxEVT_MENU, &MainFrame::OnExit, this, wxID_EXIT);
-    
-    //Bind event handlers for buttons
+}
+
+void MainFrame::BindButtonEventHandlers()
+{
     button1->Bind(wxEVT_BUTTON, &MainFrame::Button1, this);
     button2->Bind(wxEVT_BUTTON, &MainFrame::Button2, this);
     button3->Bind(wxEVT_BUTTON, &MainFrame::Button3, this);
@@ -90,6 +94,20 @@ void MainFrame::BindEventHandlers()
     button7->Bind(wxEVT_BUTTON, &MainFrame::Button7, this);
     button8->Bind(wxEVT_BUTTON, &MainFrame::Button8, this);
     button9->Bind(wxEVT_BUTTON, &MainFrame::Button9, this);
+}
+
+void MainFrame::UnbindButtonEventHandlers()
+{
+    //Bind event handlers for buttons
+    button1->Unbind(wxEVT_BUTTON, &MainFrame::Button1, this);
+    button2->Unbind(wxEVT_BUTTON, &MainFrame::Button2, this);
+    button3->Unbind(wxEVT_BUTTON, &MainFrame::Button3, this);
+    button4->Unbind(wxEVT_BUTTON, &MainFrame::Button4, this);
+    button5->Unbind(wxEVT_BUTTON, &MainFrame::Button5, this);
+    button6->Unbind(wxEVT_BUTTON, &MainFrame::Button6, this);
+    button7->Unbind(wxEVT_BUTTON, &MainFrame::Button7, this);
+    button8->Unbind(wxEVT_BUTTON, &MainFrame::Button8, this);
+    button9->Unbind(wxEVT_BUTTON, &MainFrame::Button9, this);
 }
     
 void MainFrame::OnExit(wxCommandEvent& event)
@@ -105,83 +123,90 @@ void MainFrame::OnAbout(wxCommandEvent& event)
         
 void MainFrame::OnReset(wxCommandEvent& event)
 {
-    //wxGetApp().game->initBoard();
+    game->InitBoard();
     button1->SetLabel("");
+    button2->SetLabel("");
+    button3->SetLabel("");
+    button4->SetLabel("");
+    button5->SetLabel("");
+    button6->SetLabel("");
+    button7->SetLabel("");
+    button8->SetLabel("");
+    button9->SetLabel("");
+    BindButtonEventHandlers();
 }
-    /*
 
-void Frame::PlaySquare(wxButton* button, int x, int y)
+void MainFrame::PlayPosition(wxButton* button, int x, int y)
 {
-    if(wxGetApp().game->getPosition(x,y) == 0){
-        wxGetApp().game->setPosition(x,y,wxGetApp().game->getPlayer());
+    if(game->GetPosition(x,y) == 0){
+        game->SetPosition(x,y,game->GetPlayer());
         
-        int currPlayer = wxGetApp().game->getPlayer();
+        int currPlayer = game->GetPlayer();
         char buttonLabel;
         if(currPlayer == 1){buttonLabel = 'O';} else {buttonLabel = 'X';};
         button->SetLabel(buttonLabel);
         
-        if(wxGetApp().game->checkWin() == true){
+        if(game->CheckWin() == true){
             wxMessageBox(wxString::Format(wxT("Player %d Wins!"),currPlayer));
             SetStatusText("Reset to play again.");
+            UnbindButtonEventHandlers();
         } else {   
-            int nextPlayer = wxGetApp().game->switchPlayer();
-        SetStatusText(wxString::Format(wxT("Player %d's turn."),nextPlayer));
-    }
-};}
-
-*/
-
+            int nextPlayer = game->SwitchPlayer();
+            SetStatusText(wxString::Format(wxT("Player %d's turn."),nextPlayer));
+        }
+    };
+}
 
 void MainFrame::Button1(wxCommandEvent& event)
 {   
-    //wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
-    //Frame::PlaySquare(button, 0, 0);
+    wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
+    MainFrame::PlayPosition(button, 0, 0);
 }
 
 void MainFrame::Button2(wxCommandEvent& event)
 {
-    //wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
-    //Frame::PlaySquare(button, 1, 0);
+    wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
+    MainFrame::PlayPosition(button, 1, 0);
 }
 
 void MainFrame::Button3(wxCommandEvent& event)
 {
-    //wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
-    //Frame::PlaySquare(button, 2, 0);
+    wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
+    MainFrame::PlayPosition(button, 2, 0);
 }
 
 void MainFrame::Button4(wxCommandEvent& event)
 {
-    //wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
-    //Frame::PlaySquare(button, 0, 1);
+    wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
+    MainFrame::PlayPosition(button, 0, 1);
 }
 
 void MainFrame::Button5(wxCommandEvent& event)
 {
-    //wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
-    //Frame::PlaySquare(button, 1, 1);
+    wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
+    MainFrame::PlayPosition(button, 1, 1);
 }
 
 void MainFrame::Button6(wxCommandEvent& event)
 {
-    //wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
-    //Frame::PlaySquare(button, 2, 1);
+    wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
+    MainFrame::PlayPosition(button, 2, 1);
 }
 
 void MainFrame::Button7(wxCommandEvent& event)
 {
-    //wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
-    //Frame::PlaySquare(button, 0, 2);
+    wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
+    MainFrame::PlayPosition(button, 0, 2);
 }
 
 void MainFrame::Button8(wxCommandEvent& event)
 {
-    //wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
-    //Frame::PlaySquare(button, 1, 2);
+    wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
+    MainFrame::PlayPosition(button, 1, 2);
 }
 
 void MainFrame::Button9(wxCommandEvent& event)
 {
-    //wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
-    //Frame::PlaySquare(button, 2, 2);
+    wxButton *button = wxDynamicCast(event.GetEventObject(),wxButton);
+    MainFrame::PlayPosition(button, 2, 2);
 }

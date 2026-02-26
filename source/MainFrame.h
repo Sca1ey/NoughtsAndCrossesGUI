@@ -10,8 +10,10 @@ class MainFrame : public wxFrame
     private:
         void CreateMenus();
         void CreateControls();
-        void BindEventHandlers();
-        void PlaySquare(wxButton*, int, int);
+        void BindMenuEventHandlers();
+        void BindButtonEventHandlers();
+        void UnbindButtonEventHandlers();
+        void PlayPosition(wxButton*, int, int);
     
         void OnAbout(wxCommandEvent& event);
         void OnReset(wxCommandEvent& event);
