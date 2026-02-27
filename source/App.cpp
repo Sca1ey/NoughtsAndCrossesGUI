@@ -7,7 +7,7 @@ wxIMPLEMENT_APP(App);
 bool App::OnInit()
 {
     MainFrame* mainFrame = new MainFrame("Noughts and Crosses");
-    mainFrame->SetClientSize(450,400);
+    mainFrame->SetClientSize(300,150);
     mainFrame->Center();
     mainFrame->Show();
     

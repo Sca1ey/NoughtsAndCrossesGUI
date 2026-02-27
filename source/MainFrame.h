@@ -30,6 +30,7 @@ class MainFrame : public wxFrame
         void Button9(wxCommandEvent& event);
         
         wxGridSizer* grid;
+        
         wxButton* button1;
         wxButton* button2;
         wxButton* button3;
@@ -39,4 +40,6 @@ class MainFrame : public wxFrame
         wxButton* button7;
         wxButton* button8;
         wxButton* button9;
+
+        wxGridSizer* border;
 };

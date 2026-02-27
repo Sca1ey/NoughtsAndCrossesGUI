@@ -48,8 +48,7 @@ void MainFrame::CreateMenus()
 void MainFrame::CreateControls()
 {
     //Create GridSizer with 3 columns
-    grid = new wxGridSizer(3);
-    this->SetSizer(grid);
+    grid = new wxGridSizer(3,10,10);
     
     //create buttons
     button1 = new wxButton(this, wxID_ANY,"");
@@ -62,17 +61,23 @@ void MainFrame::CreateControls()
     button8 = new wxButton(this, wxID_ANY,"");
     button9 = new wxButton(this, wxID_ANY,"");
     
-    //Add buttons to grid    
-    grid->Add(button1, wxSizerFlags().Align(wxALIGN_CENTER));
-    grid->Add(button2, wxSizerFlags().Align(wxALIGN_CENTER));
-    grid->Add(button3, wxSizerFlags().Align(wxALIGN_CENTER));
-    grid->Add(button4, wxSizerFlags().Align(wxALIGN_CENTER));
-    grid->Add(button5, wxSizerFlags().Align(wxALIGN_CENTER));
-    grid->Add(button6, wxSizerFlags().Align(wxALIGN_CENTER));
-    grid->Add(button7, wxSizerFlags().Align(wxALIGN_CENTER));
-    grid->Add(button8, wxSizerFlags().Align(wxALIGN_CENTER));
-    grid->Add(button9, wxSizerFlags().Align(wxALIGN_CENTER));
-
+    //Add buttons to grid
+    wxSizerFlags flags = wxSizerFlags().Expand();    
+    grid->Add(button1, flags);
+    grid->Add(button2, flags);
+    grid->Add(button3, flags);
+    grid->Add(button4, flags);
+    grid->Add(button5, flags);
+    grid->Add(button6, flags);
+    grid->Add(button7, flags);
+    grid->Add(button8, flags);
+    grid->Add(button9, flags);
+    
+    border = new wxGridSizer(1);
+    border->Add(grid, wxSizerFlags().Border(wxALL, 10).Expand());
+    
+    this->SetSizer(border);
+    border->SetSizeHints(this);
 }
 
 void MainFrame::BindMenuEventHandlers()
@@ -124,6 +129,7 @@ void MainFrame::OnAbout(wxCommandEvent& event)
 void MainFrame::OnReset(wxCommandEvent& event)
 {
     game->InitBoard();
+    game->ResetTurns();
     button1->SetLabel("");
     button2->SetLabel("");
     button3->SetLabel("");
@@ -135,6 +141,7 @@ void MainFrame::OnReset(wxCommandEvent& event)
     button9->SetLabel("");
     BindButtonEventHandlers();
     int currPlayer = game->GetPlayer();
+    if(currPlayer == 2){currPlayer = game->SwitchPlayer();}
     SetStatusText(wxString::Format(wxT("Player %d's turn."),currPlayer));
 }
 
@@ -142,6 +149,7 @@ void MainFrame::PlayPosition(wxButton* button, int x, int y)
 {
     if(game->GetPosition(x,y) == 0){
         game->SetPosition(x,y,game->GetPlayer());
+        int turnsPlayed = game->AddTurn();
         
         int currPlayer = game->GetPlayer();
         char buttonLabel;
@@ -152,7 +160,11 @@ void MainFrame::PlayPosition(wxButton* button, int x, int y)
             wxMessageBox(wxString::Format(wxT("Player %d Wins!\nReset to Play again!"),currPlayer));
             SetStatusText("Reset to play again.");
             UnbindButtonEventHandlers();
-        } else {   
+        } else if (turnsPlayed == 9){
+            wxMessageBox(wxString::Format(wxT("It's a draw!\nReset to Play again!")));
+            SetStatusText("Reset to play again.");
+            UnbindButtonEventHandlers();
+        } else { 
             int nextPlayer = game->SwitchPlayer();
             SetStatusText(wxString::Format(wxT("Player %d's turn."),nextPlayer));
         }
