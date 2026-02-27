@@ -13,8 +13,11 @@ class Game {
         bool CheckWin();
         int GetPlayer();
         int SwitchPlayer();
+        int AddTurn();
+        int ResetTurns();
 
     private:
+        int turns = 0;
         int player = 1;
         int board[3][3];   
         int  winLines[8][3][2] = {

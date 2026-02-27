@@ -48,6 +48,18 @@ int Game::SwitchPlayer()
     return player;
 };
 
+int Game::AddTurn()
+{
+    turns += 1;
+    return turns;
+};
+
+int Game::ResetTurns()
+{
+    turns = 0;
+    return turns;
+}
+
 /*
 int main (){
     Game* game = new Game();
